@@ -31,7 +31,7 @@ install_node_exporter() {
     echo "Moving Node Exporter to /usr/local/bin..."
     mv /tmp/node_exporter*/node_exporter /usr/local/bin/
 
-    # Clean up temporary files
+    echo "Clean up temporary files"
     rm -rf /tmp/node_exporter*
 
     # Create a systemd service file for Node Exporter
