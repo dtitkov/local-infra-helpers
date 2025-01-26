@@ -16,6 +16,10 @@ echo "Installing Grafana..."
 sudo apt-get update
 sudo apt-get install -y grafana
 
+echo "Realoading daemon"
+sudo systemctl daemon-reload
+
 echo "Starting and Enabling Grafana service..."
+sudo systemctl daemon-reload
 sudo systemctl enable grafana-server
 sudo systemctl start grafana-server
