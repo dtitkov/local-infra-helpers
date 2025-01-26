@@ -25,7 +25,7 @@ SERVICE_FILE="/etc/systemd/system/prometheus.service"
 
 # Download and Extract Prometheus
 echo "Downloading Prometheus from $PROMETHEUS_URL..."
-wget -q "$PROMETHEUS_URL" -O /tmp/prometheus.tar.gz
+wget --progress=dot "$PROMETHEUS_URL" -O /tmp/prometheus.tar.gz
 echo "Extracting Prometheus..."
 tar -xzf /tmp/prometheus.tar.gz -C /tmp
 PROMETHEUS_DIR=$(find /tmp -type d -name "prometheus-*")
