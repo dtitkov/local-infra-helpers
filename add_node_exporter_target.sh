@@ -23,14 +23,12 @@ if grep -q 'job_name: "node_exporter"' "$PROMETHEUS_CONFIG"; then
   echo "job_name: \"node_exporter\" section found. Adding new target..."
 
   # Add the new target to the existing targets under node_exporter job
-  # Using sed to find the targets section and append the new target
-  # The command searches for the line containing 'job_name: "node_exporter"'
-  # and then finds the line containing 'targets:' within that block.
-  # It appends the new target after the 'targets:' line.
-  sed -i "/job_name: \"node_exporter\"/ { 
-          /targets:/ a \ 
-          - \"$NEW_TARGET\" 
-      }" "$PROMETHEUS_CONFIG"
+  # Using awk to find the targets section and append the new target
+  awk -v new_target="$NEW_TARGET" '
+  $0 ~ /job_name: "node_exporter"/ { in_job=1 }
+  in_job && $0 ~ /targets:/ { print; print "      - \"" new_target "\""; in_job=0; next }
+  { print }
+  ' "$PROMETHEUS_CONFIG" > /tmp/prometheus.yml && mv /tmp/prometheus.yml "$PROMETHEUS_CONFIG"
 else
   echo "job_name: \"node_exporter\" section not found. Adding new job with target..."
 
