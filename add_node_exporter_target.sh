@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Path to your Prometheus configuration file
+PROMETHEUS_CONFIG="/etc/prometheus/prometheus.yml"
+
+# Check if the script is run with sudo privileges
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root or use sudo"
+  exit 1
+fi
+
 # Check if a URL with port is provided as a parameter
 if [ -z "$1" ]; then
   echo "Usage: $0 <url>:<port>"
@@ -18,6 +27,9 @@ if grep -q 'job_name: "node_exporter"' "$PROMETHEUS_CONFIG"; then
 
   # Add the new target to the existing targets under node_exporter job
   # Using sed to find the targets section and append the new target
+  # The command searches for the line containing 'job_name: "node_exporter"'
+  # and then finds the line containing 'targets:' within that block.
+  # It appends the new target after the 'targets:' line.
   sed -i "/job_name: \"node_exporter\"/ { 
           /targets:/ a \ 
           - \"$NEW_TARGET\" 
@@ -33,9 +45,14 @@ else
   static_configs:
     - targets:
       - "$NEW_TARGET"
-EOL
+# Check if Prometheus service is running and restart if necessary
+if systemctl is-active --quiet prometheus; then
+  echo "Prometheus configuration updated. Restarting Prometheus..."
+  sudo systemctl restart prometheus
+else
+  echo "Prometheus service is not running. Starting Prometheus..."
+  sudo systemctl start prometheus
 fi
-
 # Restart Prometheus service to apply changes
 echo "Prometheus configuration updated. Restarting Prometheus..."
 sudo systemctl restart prometheus
