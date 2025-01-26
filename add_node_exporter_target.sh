@@ -18,9 +18,6 @@ fi
 # Set the target URL (with port)
 NEW_TARGET="$1"
 
-# Path to your Prometheus configuration file
-PROMETHEUS_CONFIG="/etc/prometheus/prometheus.yml"
-
 # Check if job_name: "node_exporter" exists in the configuration file
 if grep -q 'job_name: "node_exporter"' "$PROMETHEUS_CONFIG"; then
   echo "job_name: \"node_exporter\" section found. Adding new target..."
@@ -45,6 +42,9 @@ else
   static_configs:
     - targets:
       - "$NEW_TARGET"
+EOL
+fi
+
 # Check if Prometheus service is running and restart if necessary
 if systemctl is-active --quiet prometheus; then
   echo "Prometheus configuration updated. Restarting Prometheus..."
@@ -53,8 +53,5 @@ else
   echo "Prometheus service is not running. Starting Prometheus..."
   sudo systemctl start prometheus
 fi
-# Restart Prometheus service to apply changes
-echo "Prometheus configuration updated. Restarting Prometheus..."
-sudo systemctl restart prometheus
 
 echo "Done."
