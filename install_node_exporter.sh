@@ -21,18 +21,18 @@ install_node_exporter() {
     echo "Downloading Node Exporter from $NODE_EXPORTER_URL..."
     
     # Download Node Exporter
-    wget --progress=bar:force "$NODE_EXPORTER_URL" -O /tmp/node_exporter.tar.gz
+    wget --progress=bar:force "$NODE_EXPORTER_URL" -O $HOME/node_exporter.tar.gz
     
     # Extract the tarball
     echo "Extracting Node Exporter..."
-    tar -xvzf /tmp/node_exporter.tar.gz -C /tmp/
+    tar -xvzf $HOME/node_exporter.tar.gz -C $HOME/
 
     # Move the Node Exporter binary to /usr/local/bin
     echo "Moving Node Exporter to /usr/local/bin..."
-    mv /tmp/node_exporter*/node_exporter /usr/local/bin/
+    mv $HOME/node_exporter*/node_exporter /usr/local/bin/
 
     echo "Clean up temporary files"
-    rm -rf /tmp/node_exporter*
+    rm -rf $HOME/node_exporter*
 
     # Create a systemd service file for Node Exporter
     echo "Creating systemd service for Node Exporter..."

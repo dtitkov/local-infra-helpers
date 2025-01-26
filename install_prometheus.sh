@@ -1,5 +1,12 @@
 #!/bin/bash
 # Exit immediately if a command exits with a non-zero status
+check_root() {
+    if [ "$(id -u)" -ne 0 ]; then
+        echo "This script must be run as root or with sudo." 
+        exit 1
+    fi
+}
+
 set -e
 
 # Function to display usage
