@@ -16,12 +16,9 @@ This repository provides a collection of scripts designed to automate the **inst
 
 **Usage**  
 
-1. Make it executable on your target device by running:
 
-    ```bash
-    chmod +x install_prometheus.sh
-    ```
-2. Run the script with the Prometheus download URL:
+
+1. Run the script with the Prometheus download URL:
 
     ```bash
     ./install_prometheus.sh <Prometheus Download URL>
@@ -44,13 +41,27 @@ This repository provides a collection of scripts designed to automate the **inst
 
 **Usage**  
 
-1. Make it executable on your target device by running:
-
-    ```bash
-    chmod +x uninstall_prometheus.sh
-    ```
-2. Run the script
+1. Run the script
 
     ```bash
     ./uninstall_prometheus.sh
+    ```
+
+## Grafana
+
+### Install script
+
+**What It Does**
+
+- Check for Existing Grafana Repository
+- Add Grafana Repository
+- Install Grafana
+- Start and Enable Grafana Service
+
+**Usage**
+
+1. Run the script
+
+    ```bash
+    ./install_grafana.sh
     ```
