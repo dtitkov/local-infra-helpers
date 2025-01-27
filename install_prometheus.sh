@@ -34,7 +34,7 @@ SERVICE_FILE="/etc/systemd/system/prometheus.service"
 echo "Downloading Prometheus from $PROMETHEUS_URL..."
 wget --progress=bar:force "$PROMETHEUS_URL" -O $HOME/prometheus.tar.gz
 echo "Extracting Prometheus..."
-tar -xzf /tmp/prometheus.tar.gz -C $HOME
+tar -xzf $HOME/prometheus.tar.gz -C $HOME
 PROMETHEUS_DIR=$(find $HOME -type d -name "prometheus-*")
 
 # Move binaries
